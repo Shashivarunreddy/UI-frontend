@@ -1,10 +1,11 @@
-import type { Metadata } from "next";
+
+import { ThemeProvider } from "@/components/theme-provider";
+import { constructMetadata } from "@/lib/utils";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "../components/ui/theme-provider";
-import { SiteHeader } from "@/fixed_components.tsx/header";
-import { SiteFooter } from "@/fixed_components.tsx/footer";
-// optional for dark mode
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { Analytics } from "@/components/analytics";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -16,24 +17,34 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "My UI",
-  description: "Custom component library like shadcn",
+export const viewport: Viewport = {
+  themeColor: "black",
 };
+
+export const metadata: Metadata = constructMetadata({
+  canonical: "https://www.prismui.tech",
+});
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} font-sans antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased font-sans bg-background`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SiteHeader />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
-          <SiteFooter />
+          <TailwindIndicator />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );
