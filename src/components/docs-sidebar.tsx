@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { DocsNav } from "@/components/docs-nav";
 import { docsConfig } from "@/config/docs";
-import { cn } from "@/lib/utils";
+
 
 export function DocsSidebar() {
   const [open, setOpen] = React.useState(false);
